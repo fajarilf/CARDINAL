@@ -3,5 +3,6 @@ packages:
 
 # native-binary fetchers: @swc/core for the NestJS api build, unrs-resolver for next lint
 allowBuilds:
+  '@scarf/scarf': false
   '@swc/core': true
   unrs-resolver: true
