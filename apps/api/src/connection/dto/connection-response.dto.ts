@@ -1,9 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { DATABASE } from '../connections.type';
 
 // ponytail: response exposes password (matches current selectAll); drop from select when auth lands.
 export class ConnectionResponseDto {
   @ApiProperty({ example: 1 })
   id!: number;
+
+  @ApiProperty({ example: 'analytic-warehouse' })
+  name?: string;
+
+  @ApiProperty({ example: DATABASE.mysql })
+  database!: DATABASE;
+
+  @ApiProperty({ example: 'warehouse-db' })
+  database_name!: string;
 
   @ApiProperty({ example: '127.0.0.1' })
   ip_address!: string;

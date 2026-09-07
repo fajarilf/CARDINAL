@@ -3,6 +3,9 @@ import { Migration, MigrationProvider, Migrator } from 'kysely/migration';
 import { Pool } from 'pg';
 import { Databases } from './database.type';
 import * as createConnections from './migrations/001_create_connections';
+import * as addConnectionName from './migrations/002_add_connection_name';
+import * as addDatabaseType from './migrations/003_add_database_type';
+import * as addDatabaseName from './migrations/004_add_database_name';
 
 // ponytail: explicit map instead of FileMigrationProvider — dodges ts-node
 // dynamic-import-of-.ts flakiness on Windows. Add a line per new migration.
@@ -10,6 +13,9 @@ class StaticProvider implements MigrationProvider {
   getMigrations(): Promise<Record<string, Migration>> {
     return Promise.resolve({
       '001_create_connections': createConnections,
+      '002_add_connection_name': addConnectionName,
+      '003_add_database_type': addDatabaseType,
+      '004_add_database_name': addDatabaseName,
     });
   }
 }

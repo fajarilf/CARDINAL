@@ -1,7 +1,15 @@
 import { ColumnType, Generated } from 'kysely';
 
+export enum DATABASE {
+  mysql,
+  postgresql,
+}
+
 export interface ConnectionTable {
   id: Generated<number>;
+  name: string | undefined;
+  database: DATABASE;
+  database_name: string;
   ip_address: string;
   port: number;
   username: string;

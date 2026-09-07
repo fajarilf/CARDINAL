@@ -2,6 +2,8 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { AppExceptionFilter } from './common/app-exception.filter';
+import { ResponseInterceptor } from './common/response.interceptor';
 
 // load apps/api/.env for `nest start` (dev/prod); migrate.ts uses --env-file instead
 try {
@@ -14,6 +16,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
+  app.useGlobalFilters(new AppExceptionFilter());
+  app.useGlobalInterceptors(new ResponseInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('CARDINAL API')
