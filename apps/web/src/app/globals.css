@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #171717;
+
+  /* CARDINAL design tokens */
+  --color-paper: #faf7f0;
+  --color-taupe: #d8d2c2;
+  --color-clay: #b17457;
+  --color-ink: #4a4947;
+
+  --font-sans:
+    var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  /* brutalist offset shadows */
+  --shadow-brutal: 3px 3px 0 var(--color-ink);
+  --shadow-brutal-lg: 4px 4px 0 var(--color-ink);
+  --shadow-brutal-sm: 1px 1px 0 var(--color-ink);
+  --shadow-soft: 3px 3px 0 rgb(74 73 71 / 0.14);
+  --shadow-clay: 4px 4px 0 var(--color-clay);
+  --shadow-clay-btn: 3px 3px 0 var(--color-clay);
+  --shadow-modal: 6px 6px 0 var(--color-ink);
+
+  --animate-fade: cdFade 0.5s ease both;
+  --animate-rise: cdRise 0.48s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  --animate-pop: cdPop 0.18s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  --animate-spin-slow: cdSpin 1s linear infinite;
+}
+
+@keyframes cdFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cdRise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes cdPop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes cdSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
