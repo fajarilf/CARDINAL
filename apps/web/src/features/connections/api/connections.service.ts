@@ -25,6 +25,20 @@ export function fetchConnections(): Promise<ApiConnection[]> {
   );
 }
 
+// Test reachability by listing the schemas the credentials can see.
+export function introspectSchemas(params: {
+  ip_address: string;
+  port: string;
+  username: string;
+  password: string;
+  database_name: string;
+}): Promise<string[]> {
+  const qs = new URLSearchParams(params).toString();
+  return fetch(`${API_BASE}/introspections?${qs}`, {
+    headers: JSON_HEADERS,
+  }).then(readEnvelope<string[]>);
+}
+
 export function createConnection(
   body: ConnectionRequest,
 ): Promise<ApiConnection> {
