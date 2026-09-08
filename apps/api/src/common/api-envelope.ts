@@ -5,7 +5,7 @@ import {
   getSchemaPath,
   type ApiResponseOptions,
 } from '@nestjs/swagger';
-import { AppSuccessResponse } from '../dto/app-success-response.dto';
+import { AppSuccessResponse } from './dto/app-success-response.dto';
 
 /**
  * Documents a handler as returning `AppSuccessResponse<model>` (or an array in

@@ -1,7 +1,8 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { IntrospectionService } from './introspection.service';
 import { ApiEnvelope } from '../common/api-envelope';
 import { CreateConnectionDto } from '../connection/dto/create-connection.dto';
+import { IntrospectionDatabaseSchema } from './dto/introspection-database-schema.dto';
 
 @Controller('introspections')
 export class IntrospectionController {
@@ -26,5 +27,11 @@ export class IntrospectionController {
     };
 
     return this.service.listSchemas(dto);
+  }
+
+  @Get(':connection_id')
+  @ApiEnvelope(IntrospectionDatabaseSchema, { status: 201 })
+  introspectSchema(@Param('connection_id') connection_id: number) {
+    return this.service.introspectSchema(connection_id);
   }
 }

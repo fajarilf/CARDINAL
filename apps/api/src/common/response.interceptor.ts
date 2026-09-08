@@ -7,7 +7,7 @@ import {
 import { Response } from 'express';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AppSuccessResponse } from '../dto/app-success-response.dto';
+import { AppSuccessResponse } from './dto/app-success-response.dto';
 
 type Wrapped<T> = AppSuccessResponse<T> | T;
 

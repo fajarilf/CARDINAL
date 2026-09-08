@@ -18,7 +18,7 @@ import { ConnectionService } from './connection.service';
 import { CreateConnectionDto } from './dto/create-connection.dto';
 import { EditConnectionDto } from './dto/edit-connection.dto';
 import { ConnectionResponseDto } from './dto/connection-response.dto';
-import { AppErrorResponse } from '../dto/app-error-response.dto';
+import { AppErrorResponse } from '../common/dto/app-error-response.dto';
 import { ApiEnvelope } from '../common/api-envelope';
 
 @ApiTags('connections')
