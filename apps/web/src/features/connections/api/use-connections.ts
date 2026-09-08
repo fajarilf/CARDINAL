@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createConnection,
   deleteConnection,
+  fetchConnection,
   fetchConnections,
   updateConnection,
 } from "./connections.service";
@@ -10,12 +11,21 @@ import type { ConnectionRequest } from "./types";
 export const connectionKeys = {
   all: ["connections"] as const,
   list: () => [...connectionKeys.all, "list"] as const,
+  detail: (id: number) => [...connectionKeys.all, "detail", id] as const,
 };
 
 export function useConnections() {
   return useQuery({
     queryKey: connectionKeys.list(),
     queryFn: fetchConnections,
+  });
+}
+
+export function useConnection(id: number) {
+  return useQuery({
+    queryKey: connectionKeys.detail(id),
+    queryFn: () => fetchConnection(id),
+    enabled: Number.isFinite(id),
   });
 }
 

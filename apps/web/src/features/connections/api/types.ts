@@ -52,12 +52,6 @@ export interface ApiConnection {
   updated_at: string;
 }
 
-export interface ApiEnvelope<T> {
-  status: string;
-  code: number;
-  data: T;
-}
-
 // POST / PATCH body
 export interface ConnectionRequest {
   ip_address: string;

@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Plus, AlertCircle } from "lucide-react";
-import { Button, ConfirmDialog, Toast, Spinner } from "@/components/ui";
+import { Button, ConfirmDialog, Spinner } from "@/components/ui";
 import { CrowsFoot, CardinalityGlyph } from "@/components/crows-foot";
+import { useToast } from "@/components/toast-provider";
 import type { Connection, Draft, ConnectionRequest } from "../api/types";
 import {
   useConnections,
@@ -30,16 +31,13 @@ const errText = (e: unknown) =>
 
 export default function CardinalConnections() {
   const { data, isPending, isError } = useConnections();
+  const toast = useToast();
 
   const [connections, setConnections] = useState<Connection[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modal, setModal] = useState<Modal>(null);
   const [deleteTarget, setDeleteTarget] = useState<Connection | null>(null);
-  const [toast, setToast] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | undefined>(
-    undefined,
-  );
 
   const createM = useCreateConnection();
   const updateM = useUpdateConnection();
@@ -59,12 +57,6 @@ export default function CardinalConnections() {
     setSeenData(data);
     setConnections(data.map(toConnection));
   }
-
-  const showToast = (msg: string) => {
-    setToast(msg);
-    clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToast(null), 2600);
-  };
 
   const openCreate = () =>
     setModal({
@@ -90,10 +82,10 @@ export default function CardinalConnections() {
       createM.mutate(body, {
         onSuccess: (row) => {
           setSelectedId(String(row.id));
-          showToast(`Linked ${row.name ?? draft.name}`);
+          toast(`Linked ${row.name ?? draft.name}`);
           setModal(null);
         },
-        onError: (e) => showToast(errText(e)),
+        onError: (e) => toast(errText(e)),
       });
     } else {
       const patch: Partial<ConnectionRequest> = { ...body };
@@ -103,10 +95,10 @@ export default function CardinalConnections() {
         { id: Number(draft.id), body: patch },
         {
           onSuccess: () => {
-            showToast(`Saved ${draft.name}`);
+            toast(`Saved ${draft.name}`);
             setModal(null);
           },
-          onError: (e) => showToast(errText(e)),
+          onError: (e) => toast(errText(e)),
         },
       );
     }
@@ -118,19 +110,11 @@ export default function CardinalConnections() {
     deleteM.mutate(Number(id), {
       onSuccess: () => {
         if (selectedId === id) setSelectedId(null);
-        showToast(`Removed ${name}`);
+        toast(`Removed ${name}`);
         setDeleteTarget(null);
       },
-      onError: (e) => showToast(errText(e)),
+      onError: (e) => toast(errText(e)),
     });
-  };
-
-  const openDiagram = (conn: Connection) => {
-    setConnections((cs) =>
-      cs.map((c) => ({ ...c, current: c.id === conn.id })),
-    );
-    setSelectedId(conn.id);
-    showToast(`Drawing the diagram for ${conn.name}…`);
   };
 
   return (
@@ -225,7 +209,6 @@ export default function CardinalConnections() {
                   conn={conn}
                   selected={conn.id === selectedId}
                   onSelect={() => setSelectedId(conn.id)}
-                  onOpen={() => openDiagram(conn)}
                   onEdit={() => openEdit(conn)}
                   onDelete={() => setDeleteTarget(conn)}
                 />
@@ -256,8 +239,6 @@ export default function CardinalConnections() {
           onConfirm={confirmDelete}
         />
       )}
-
-      <Toast msg={toast} icon={<CrowsFoot size={15} strokeWidth={2} />} />
     </div>
   );
 }

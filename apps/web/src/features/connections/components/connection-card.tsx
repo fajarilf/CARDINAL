@@ -1,6 +1,8 @@
+import Link from "next/link";
 import { Pencil, Trash2, ArrowUpRight } from "lucide-react";
 import { IconButton } from "@/components/ui";
 import { CrowsFoot } from "@/components/crows-foot";
+import { useToast } from "@/components/toast-provider";
 import type { Connection, Engine } from "../api/types";
 
 const ENGINE_LABEL: Record<Engine, string> = {
@@ -12,17 +14,16 @@ export function ConnectionCard({
   conn,
   selected,
   onSelect,
-  onOpen,
   onEdit,
   onDelete,
 }: {
   conn: Connection;
   selected: boolean;
   onSelect: () => void;
-  onOpen: () => void;
   onEdit: () => void;
   onDelete: () => void;
 }) {
+  const toast = useToast();
   const rows: [string, string][] = [
     ["host", conn.host || "—"],
     ["database", conn.database || "—"],
@@ -89,12 +90,13 @@ export function ConnectionCard({
         className="flex items-center justify-between gap-2 pt-[11px] pr-3 pb-[11px] pl-[14px] border-t-[1.5px] border-ink"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
+        <Link
+          href={`/connections/${conn.id}/erd`}
+          onClick={() => toast("Generating ERD…")}
           className="inline-flex items-center gap-[5px] font-semibold text-[13.5px] text-ink bg-transparent border-[1.5px] border-ink rounded-[2px] px-[13px] py-1.5 cursor-pointer transition-colors duration-[140ms] motion-reduce:transition-none hover:bg-clay hover:border-clay hover:text-paper"
-          onClick={onOpen}
         >
           Open <ArrowUpRight size={15} strokeWidth={2.2} />
-        </button>
+        </Link>
         <div className="flex gap-1">
           <IconButton
             onClick={onEdit}

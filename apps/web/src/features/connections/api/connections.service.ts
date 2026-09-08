@@ -1,27 +1,16 @@
 import { API_BASE } from "@/config/env";
-import type {
-  ApiConnection,
-  ApiEnvelope,
-  ConnectionRequest,
-} from "./types";
-
-const JSON_HEADERS = {
-  "content-type": "application/json",
-  accept: "application/json",
-};
-
-// Unwrap { status, code, data } — or surface the API's AppErrorResponse.message.
-async function readEnvelope<T>(res: Response): Promise<T> {
-  const body = (await res.json()) as ApiEnvelope<T> & { message?: string };
-  if (!res.ok) {
-    throw new Error(body.message ?? `HTTP ${res.status}`);
-  }
-  return body.data;
-}
+import { JSON_HEADERS, readEnvelope } from "@/lib/api";
+import type { ApiConnection, ConnectionRequest } from "./types";
 
 export function fetchConnections(): Promise<ApiConnection[]> {
   return fetch(`${API_BASE}/connections`, { headers: JSON_HEADERS }).then(
     readEnvelope<ApiConnection[]>,
+  );
+}
+
+export function fetchConnection(id: number): Promise<ApiConnection> {
+  return fetch(`${API_BASE}/connections/${id}`, { headers: JSON_HEADERS }).then(
+    readEnvelope<ApiConnection>,
   );
 }
 
