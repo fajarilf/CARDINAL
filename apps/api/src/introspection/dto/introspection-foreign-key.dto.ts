@@ -1,4 +1,6 @@
-export class IntrospectionForeignKey {
+import type { ForeignKey } from '@cardinal/shared-types/schema';
+
+export class IntrospectionForeignKey implements ForeignKey {
   constraint_name!: string;
   source_table!: string;
   source_column!: string;

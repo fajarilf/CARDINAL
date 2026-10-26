@@ -5,7 +5,8 @@
  * no db-name / tables / lastSynced on the API).
  * ------------------------------------------------------------------ */
 
-export type Engine = "postgresql" | "mysql";
+import type { Engine } from "@cardinal/shared-types/erd";
+export type { Engine } from "@cardinal/shared-types/erd";
 
 export interface Connection {
   id: string;
@@ -32,33 +33,9 @@ export interface Draft {
   password: string;
 }
 
-/* ------------------------------ wire ------------------------------- *
- * Matches apps/api: ConnectionResponseDto inside AppSuccessResponse.
- * ------------------------------------------------------------------ */
-
 export const DATABASE = { mysql: 0, postgresql: 1 } as const;
-export type DatabaseId = (typeof DATABASE)[keyof typeof DATABASE];
-
-export interface ApiConnection {
-  id: number;
-  name: string | null;
-  database: DatabaseId;
-  database_name: string;
-  ip_address: string;
-  port: number;
-  username: string;
-  password: string;
-  created_at: string;
-  updated_at: string;
-}
-
-// POST / PATCH body
-export interface ConnectionRequest {
-  ip_address: string;
-  name: string;
-  database: DatabaseId;
-  database_name: string;
-  port: number;
-  username: string;
-  password: string;
-}
+export type {
+  DatabaseId,
+  ConnectionResponse as ApiConnection,
+  ConnectionRequest,
+} from "@cardinal/shared-types/connections";

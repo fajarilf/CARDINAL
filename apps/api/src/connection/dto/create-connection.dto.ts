@@ -1,3 +1,4 @@
+import type { ConnectionRequest } from '@cardinal/shared-types/connections';
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEnum,
@@ -8,7 +9,7 @@ import {
 } from 'class-validator';
 import { DATABASE } from '../connections.type';
 
-export class CreateConnectionDto {
+export class CreateConnectionDto implements ConnectionRequest {
   @ApiProperty({ type: String, example: '127.0.0.1' })
   @IsString()
   @IsNotEmpty()

@@ -1,3 +1,4 @@
+import type { ConnectionResponse } from '@cardinal/shared-types/connections';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { CreateConnectionDto } from './dto/create-connection.dto';
@@ -7,11 +8,11 @@ import { EditConnectionDto } from './dto/edit-connection.dto';
 export class ConnectionService {
   constructor(private readonly db: DatabaseService) {}
 
-  async getAll() {
+  async getAll(): Promise<ConnectionResponse<Date>[]> {
     return await this.db.selectFrom('connections').selectAll().execute();
   }
 
-  async create(dto: CreateConnectionDto) {
+  async create(dto: CreateConnectionDto): Promise<ConnectionResponse<Date>> {
     return await this.db
       .insertInto('connections')
       .values(dto)
@@ -19,7 +20,7 @@ export class ConnectionService {
       .executeTakeFirstOrThrow();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number): Promise<ConnectionResponse<Date>> {
     const row = await this.db
       .selectFrom('connections')
       .selectAll()
@@ -29,7 +30,10 @@ export class ConnectionService {
     return row;
   }
 
-  async update(id: number, dto: EditConnectionDto) {
+  async update(
+    id: number,
+    dto: EditConnectionDto,
+  ): Promise<ConnectionResponse<Date>> {
     const row = await this.db
       .updateTable('connections')
       .set({ ...dto, updated_at: new Date().toISOString() })

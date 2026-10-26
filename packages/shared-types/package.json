@@ -1,0 +1,32 @@
+{
+  "name": "@cardinal/shared-types",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./designs": {
+      "types": "./dist/designs.d.ts",
+      "default": "./dist/designs.js"
+    },
+    "./schema": {
+      "types": "./dist/schema.d.ts",
+      "default": "./dist/schema.js"
+    },
+    "./erd": {
+      "types": "./dist/erd.d.ts",
+      "default": "./dist/erd.js"
+    },
+    "./connections": {
+      "types": "./dist/connections.d.ts",
+      "default": "./dist/connections.js"
+    }
+  },
+  "typesVersions": {
+    "*": {
+      "*": ["dist/*"]
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  }
+}

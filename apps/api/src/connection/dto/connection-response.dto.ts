@@ -1,13 +1,14 @@
+import type { ConnectionResponse } from '@cardinal/shared-types/connections';
 import { ApiProperty } from '@nestjs/swagger';
 import { DATABASE } from '../connections.type';
 
 // ponytail: response exposes password (matches current selectAll); drop from select when auth lands.
-export class ConnectionResponseDto {
+export class ConnectionResponseDto implements ConnectionResponse<Date> {
   @ApiProperty({ example: 1 })
   id!: number;
 
   @ApiProperty({ example: 'analytic-warehouse' })
-  name?: string;
+  name!: string | null;
 
   @ApiProperty({ example: DATABASE.mysql })
   database!: DATABASE;

@@ -1,4 +1,4 @@
-import type { MouseEvent } from "react";
+import type { MouseEvent, ReactNode } from "react";
 import { KeyRound } from "lucide-react";
 import type { ErdTable } from "../api/types";
 import { BOX_W, HEAD_H, ROW_H } from "../utils/geometry";
@@ -10,6 +10,8 @@ export function ErdNode({
   activeCols,
   onNodeDown,
   onHeadDown,
+  onConnectStart,
+  headerSlot,
 }: {
   table: ErdTable;
   selected: boolean;
@@ -17,6 +19,10 @@ export function ErdNode({
   activeCols?: Set<string>;
   onNodeDown: (e: MouseEvent) => void;
   onHeadDown: (e: MouseEvent) => void;
+  // design-mode only: renders a connector dot per row when provided
+  onConnectStart?: (e: MouseEvent, columnName: string) => void;
+  // design-mode only: renders next to the column count in the header when provided
+  headerSlot?: ReactNode;
 }) {
   return (
     <div
@@ -36,14 +42,17 @@ export function ErdNode({
         onMouseDown={onHeadDown}
       >
         <span className="font-bold text-[14px] tracking-[-0.01em]">{table.name}</span>
-        <span className="font-mono text-[11px] text-ink/55">{table.columns.length}</span>
+        <span className="flex items-center gap-1">
+          <span className="font-mono text-[11px] text-ink/55">{table.columns.length}</span>
+          {headerSlot}
+        </span>
       </div>
       <div className="py-0.5">
         {table.columns.map((c) => (
           <div
             key={c.name}
             className={
-              "flex items-center gap-2 pl-2.5 pr-3 border-b border-dashed border-ink/14 last:border-b-0 " +
+              "relative flex items-center gap-2 pl-2.5 pr-3 border-b border-dashed border-ink/14 last:border-b-0 " +
               (activeCols?.has(c.name) ? "bg-clay/[0.14]" : "")
             }
             style={{ height: ROW_H }}
@@ -69,6 +78,18 @@ export function ErdNode({
               {c.name}
             </span>
             <span className="font-mono text-[11px] text-ink/55 shrink-0">{c.type}</span>
+            {onConnectStart && (
+              <button
+                type="button"
+                className="absolute -right-[5px] top-1/2 -translate-y-1/2 w-2.5 h-2.5 rounded-full bg-paper border border-ink/40 hover:bg-clay hover:border-clay cursor-crosshair"
+                aria-label={`Connect ${c.name}`}
+                title="Drag to connect"
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  onConnectStart(e, c.name);
+                }}
+              />
+            )}
           </div>
         ))}
       </div>

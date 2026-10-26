@@ -7,7 +7,7 @@ export enum DATABASE {
 
 export interface ConnectionTable {
   id: Generated<number>;
-  name: string | undefined;
+  name: string | null;
   database: DATABASE;
   database_name: string;
   ip_address: string;

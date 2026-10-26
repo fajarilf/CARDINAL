@@ -12,6 +12,7 @@ export function ErdSidebar({
   onQuery,
   onPick,
   headerAction,
+  footer,
 }: {
   tables: ErdTable[];
   edges: ErdEdge[];
@@ -21,6 +22,8 @@ export function ErdSidebar({
   onQuery: (v: string) => void;
   onPick: (table: ErdTable) => void;
   headerAction?: ReactNode;
+  // design-mode only: replaces the built-in selected/relationships-or-hint footer
+  footer?: ReactNode;
 }) {
   const q = query.toLowerCase().trim();
   const filtered = tables.filter((t) => t.name.toLowerCase().includes(q));
@@ -92,23 +95,24 @@ export function ErdSidebar({
       </ul>
 
       <div className="border-t-[1.5px] border-ink/14 px-4 py-3 min-h-[64px]">
-        {selected ? (
-          <>
-            <div className="flex items-center justify-between font-mono text-xs text-ink/55 py-0.5">
-              <span>selected</span>
-              <b className="text-ink font-semibold">{selected}</b>
-            </div>
-            <div className="flex items-center justify-between font-mono text-xs text-ink/55 py-0.5">
-              <span>relationships</span>
-              <b className="text-ink font-semibold">{relCount}</b>
-            </div>
-          </>
-        ) : (
-          <p className="m-0 text-xs leading-[1.5] text-ink/55">
-            Click a table to trace its relationships, or drag entities to lay out
-            the diagram.
-          </p>
-        )}
+        {footer ??
+          (selected ? (
+            <>
+              <div className="flex items-center justify-between font-mono text-xs text-ink/55 py-0.5">
+                <span>selected</span>
+                <b className="text-ink font-semibold">{selected}</b>
+              </div>
+              <div className="flex items-center justify-between font-mono text-xs text-ink/55 py-0.5">
+                <span>relationships</span>
+                <b className="text-ink font-semibold">{relCount}</b>
+              </div>
+            </>
+          ) : (
+            <p className="m-0 text-xs leading-[1.5] text-ink/55">
+              Click a table to trace its relationships, or drag entities to lay
+              out the diagram.
+            </p>
+          ))}
       </div>
     </aside>
   );

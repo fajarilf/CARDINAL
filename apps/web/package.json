@@ -6,9 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --incremental false",
+    "test": "node --experimental-strip-types --test src/features/erd-design/utils/storage.test.mjs src/features/erd-design/utils/data-types.test.mjs src/features/erd-design/utils/relationships.test.mjs"
   },
   "dependencies": {
+    "@cardinal/shared-types": "workspace:*",
     "@tanstack/react-query": "^5.102.8",
     "lucide-react": "^1.41.0",
     "next": "16.3.3",

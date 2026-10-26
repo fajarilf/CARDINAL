@@ -17,6 +17,9 @@ importers:
 
   apps/api:
     dependencies:
+      '@cardinal/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@nestjs/common':
         specifier: ^11.0.1
         version: 11.2.3(class-transformer@0.5.1)(class-validator@0.15.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(supports-color@8.1.1)
@@ -132,6 +135,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@cardinal/shared-types':
+        specifier: workspace:*
+        version: link:../../packages/shared-types
       '@tanstack/react-query':
         specifier: ^5.102.8
         version: 5.102.8(react@19.2.8)
@@ -172,6 +178,8 @@ importers:
       typescript:
         specifier: ^5
         version: 5.9.3
+
+  packages/shared-types: {}
 
 packages:
 

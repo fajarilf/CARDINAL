@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, AlertCircle } from "lucide-react";
+import Link from "next/link";
+import { Plus, Pencil, AlertCircle } from "lucide-react";
 import { Button, ConfirmDialog, Spinner } from "@/components/ui";
 import { CrowsFoot, CardinalityGlyph } from "@/components/crows-foot";
 import { useToast } from "@/components/toast-provider";
@@ -141,10 +142,19 @@ export default function CardinalConnections() {
               schema&nbsp;→&nbsp;diagram
             </span>
           </div>
-          <Button onClick={openCreate}>
-            <Plus size={17} strokeWidth={2.2} />
-            New connection
-          </Button>
+          <div className="flex items-center gap-2">
+            <Link
+              href="/design"
+              className="inline-flex items-center gap-[7px] font-semibold text-sm rounded-[2px] px-[15px] py-[9px] border-[1.5px] border-ink bg-transparent text-ink transition-[transform,box-shadow,background] duration-150 cursor-pointer motion-reduce:transition-none hover:bg-taupe"
+            >
+              <Pencil size={16} strokeWidth={2.2} />
+              Design ERD
+            </Link>
+            <Button onClick={openCreate}>
+              <Plus size={17} strokeWidth={2.2} />
+              New connection
+            </Button>
+          </div>
         </header>
 
         {/* section intro */}
